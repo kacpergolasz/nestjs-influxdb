@@ -1,0 +1,1 @@
+export const INFLUX_OPTIONS = 'INFLUX_OPTIONS'

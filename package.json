@@ -1,0 +1,44 @@
+{
+  "name": "nestjs-influxdb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "lint:fix": "eslint . --ext .ts --fix",
+    "prettier": "prettier --write .",
+    "prebuild": "npm run lint:fix && npm run prettier",
+    "build": "tsc",
+    "test": "vitest"
+  },
+  "keywords": [
+    "nestjs",
+    "influxdb",
+    "typescript"
+  ],
+  "author": "Kacper Golasz",
+  "license": "MIT",
+  "peerDependencies": {
+    "@influxdata/influxdb-client": "^1.33.2",
+    "@influxdata/influxdb-client-apis": "^1.33.2",
+    "@nestjs/common": "^10.3.10"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.6.0",
+    "@nestjs/testing": "^10.3.10",
+    "@total-typescript/tsconfig": "^1.0.4",
+    "@types/eslint__js": "^8.42.3",
+    "@typescript-eslint/eslint-plugin": "^7.16.0",
+    "@typescript-eslint/parser": "^7.16.0",
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb-typescript": "^18.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "3.3.2",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^7.16.0",
+    "vitest": "^2.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+"
+  }
+}
