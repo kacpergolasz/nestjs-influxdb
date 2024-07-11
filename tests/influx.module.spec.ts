@@ -14,6 +14,8 @@ describe.each([
   let module: TestingModule
   let influxService: InfluxService
   const now = new Date()
+  const ORG_ID = `test-org-${moduleIds.org}`
+  const BUCKET_ID = `test-bucket-${moduleIds.bucket}`
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
@@ -21,8 +23,10 @@ describe.each([
         await InfluxModule.forRoot({
           url: 'http://influxtestbase:8086',
           token: 'my-super-secret-token',
-          org: `test-org-${moduleIds.org}`,
-          bucket: `test-bucket-${moduleIds.bucket}`,
+          org: ORG_ID,
+          bucket: BUCKET_ID,
+          username: 'testadmin',
+          password: 'testadmin',
         }),
       ],
     }).compile()
@@ -43,15 +47,16 @@ describe.each([
 
   it('should write and query points', async () => {
     const point = new Point('temperature')
-      .tag('location', `module${moduleIds.org}`)
+      .tag('location', ORG_ID)
       .floatField('value', 22.5)
       .timestamp(now)
     influxService.writePoint(point)
 
     await influxService.closeWriteApi()
 
-    const query = `from(bucket: "test-bucket-${moduleIds.bucket}") |> range(start: -1h) |> filter(fn: (r) => r._measurement == "temperature" and r.location == "module${moduleIds.org}" and r._field == "value" and r._value == 22.5)`
+    const query = `from(bucket: "${BUCKET_ID}") |> range(start: -1h) |> filter(fn: (r) => r._measurement == "temperature" and r.location == "${ORG_ID}" and r._field == "value" and r._value == 22.5)`
     const result: object[] = await influxService.query(query)
+    console.log(BUCKET_ID,result)
     expect(result.length).toBeGreaterThan(0)
   })
 
