@@ -56,7 +56,6 @@ describe.each([
 
     const query = `from(bucket: "${BUCKET_ID}") |> range(start: -1h) |> filter(fn: (r) => r._measurement == "temperature" and r.location == "${ORG_ID}" and r._field == "value" and r._value == 22.5)`
     const result: object[] = await influxService.query(query)
-    console.log(BUCKET_ID,result)
     expect(result.length).toBeGreaterThan(0)
   })
 

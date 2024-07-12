@@ -1,10 +1,10 @@
 {
   "name": "nestjs-influxdb",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "lint:fix": "eslint . --ext .ts --fix",
+    "lint:fix": "npx eslint . --ext .ts --fix",
     "prettier": "prettier --write .",
     "prebuild": "npm run lint:fix && npm run prettier",
     "build": "tsc",
@@ -39,6 +39,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+"
+    "url": "https://github.com/kacpergolasz/nestjs-influxdb"
   }
 }
