@@ -1,8 +1,11 @@
 {
   "extends": "@total-typescript/tsconfig/tsc/no-dom/library", // For a library
   "compilerOptions": {
-    "outDir": "dist",
-    "module": "esnext",
-    "moduleResolution": "node"
+    "outDir": "./dist",
+    "module": "CommonJS",
+    "target": "ES2015",
+    "declaration": true,
+    "moduleResolution": "Node",
+    "verbatimModuleSyntax": false
   }
 }

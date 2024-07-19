@@ -1,6 +1,6 @@
 {
   "name": "nestjs-influxdb",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/src/index.d.ts",
@@ -14,7 +14,10 @@
     "prebuild": "npm run lint:fix && npm run prettier",
     "build": "tsc",
     "prepublish": "npm run build",
-    "test": "vitest"
+    "test": "vitest",
+    "npmtest": "npm run packtest && npm run packtest:pack",
+    "packtest": "npm pack",
+    "packtest:pack": "tar -xvzf *.tgz && rm -rf package *.tgz"
   },
   "keywords": [
     "nestjs",
