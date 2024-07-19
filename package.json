@@ -1,13 +1,19 @@
 {
   "name": "nestjs-influxdb",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "description": "",
   "main": "dist/index.js",
+  "types": "dist/src/index.d.ts",
+  "files": [
+    "/dist/src",
+    "/dist/index.js"
+  ],
   "scripts": {
     "lint:fix": "npx eslint . --ext .ts --fix",
     "prettier": "prettier --write .",
     "prebuild": "npm run lint:fix && npm run prettier",
     "build": "tsc",
+    "prepublish": "npm run build",
     "test": "vitest"
   },
   "keywords": [
