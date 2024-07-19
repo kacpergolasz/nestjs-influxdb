@@ -1,4 +1,3 @@
-// src/influx/influx.module.ts
 import { Module, type DynamicModule } from '@nestjs/common'
 import { InfluxService } from './influx.service'
 import { INFLUX_OPTIONS } from './influx.constants'
