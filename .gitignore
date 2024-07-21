@@ -1,5 +1,7 @@
 node_modules
 dist
+package
+*.tgz
 
 .DS_Store
 .vscode

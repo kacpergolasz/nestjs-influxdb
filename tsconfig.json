@@ -2,6 +2,8 @@
   "extends": "@total-typescript/tsconfig/tsc/no-dom/library", // For a library
   "compilerOptions": {
     "outDir": "./dist",
+    "rootDir": ".",
+    "sourceRoot": ".",
     "module": "CommonJS",
     "target": "ES2015",
     "declaration": true,
