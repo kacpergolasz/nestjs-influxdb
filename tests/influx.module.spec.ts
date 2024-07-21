@@ -4,6 +4,8 @@ import { InfluxModule } from '../src/influx.module'
 import { InfluxService } from '../src/influx.service'
 import { Point } from '@influxdata/influxdb-client'
 
+import { GenericContainer } from 'testcontainers'
+
 import { beforeAll, describe, expect, it } from 'vitest'
 
 describe.each([
@@ -11,6 +13,8 @@ describe.each([
   { org: 'B', bucket: 'BA' },
   { org: 'B', bucket: 'BB' },
 ])('InfluxModule', (moduleIds) => {
+  let container: GenericContainer
+
   let module: TestingModule
   let influxService: InfluxService
   const now = new Date()
@@ -18,10 +22,13 @@ describe.each([
   const BUCKET_ID = `test-bucket-${moduleIds.bucket}`
 
   beforeAll(async () => {
+    container = new GenericContainer('influxdb:2.7.6-alpine').withExposedPorts(8086)
+    await container.start()
+
     module = await Test.createTestingModule({
       imports: [
         await InfluxModule.forRoot({
-          url: 'http://influxtestbase:8086',
+          url: `http://localhost:8086`,
           token: 'my-super-secret-token',
           org: ORG_ID,
           bucket: BUCKET_ID,
@@ -33,6 +40,7 @@ describe.each([
 
     influxService = module.get<InfluxService>(InfluxService)
   })
+
 
   it('should ping database', async () => {
     let isPinged = false
