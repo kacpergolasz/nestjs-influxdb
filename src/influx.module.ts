@@ -4,12 +4,18 @@ import { INFLUX_OPTIONS } from './influx.constants'
 import { InfluxDB, type ClientOptions } from '@influxdata/influxdb-client'
 import { BucketsAPI, OrgsAPI, SetupAPI } from '@influxdata/influxdb-client-apis'
 
-interface InfluxModuleOptions extends ClientOptions {
+interface InfluxConnectionOptions extends ClientOptions {
   org: string
   bucket: string
-  username?: string
-  password?: string
 }
+
+interface InfluxSelfHostedConnectionOptions extends InfluxConnectionOptions {
+  username: string
+  password: string
+  token: string
+}
+
+type InfluxModuleOptions = InfluxConnectionOptions | InfluxSelfHostedConnectionOptions
 
 @Module({})
 export class InfluxModule {
@@ -21,7 +27,6 @@ export class InfluxModule {
     const influxServiceProvider = {
       provide: InfluxService,
       useFactory: async (options: InfluxModuleOptions) => {
-        const influxDB = new InfluxDB(options)
         const setupApi = new SetupAPI(
           new InfluxDB({ url: options.url, token: options.token })
         )
@@ -33,8 +38,13 @@ export class InfluxModule {
             : influxInstanceHasNoInitialSetup
 
         if (influxDbMustBeCreated) {
+          if(Object.keys(options).includes('username') === false || !(options as InfluxSelfHostedConnectionOptions).username || !(options as InfluxSelfHostedConnectionOptions).password) { 
+            throw new Error('Database does not exist, username and password are required')
+          }
           await InfluxModule.createInfluxDB(setupApi, options)
         }
+        const influxDB = new InfluxDB(options)
+        
         const orgsAPI = new OrgsAPI(influxDB)
         const organizationId =
           (await InfluxModule.getOrganisationId(orgsAPI, options.org)) ||
@@ -46,7 +56,6 @@ export class InfluxModule {
           organizationId,
           options.bucket
         )
-
         return new InfluxService(influxDB, options.org, options.bucket)
       },
       inject: [INFLUX_OPTIONS],
